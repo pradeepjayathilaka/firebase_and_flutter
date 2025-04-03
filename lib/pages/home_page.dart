@@ -52,6 +52,50 @@ class _HoemPageState extends State<HoemPage> {
     );
   }
 
+  //open a bottomsheet
+  void _showEditTaskBottomSheet(Task task) {
+    _taskController.text = task.name;
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _taskController,
+                    decoration: InputDecoration(
+                      hintText: "Enter a task name",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(color: Colors.blue),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () async {
+                      task.name = _taskController.text;
+                      task.updatedAt = DateTime.now();
+                      task.isUpdated = true;
+                      await TaskServices().updateTask(task);
+                      _taskController.clear();
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Update task"),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +137,9 @@ class _HoemPageState extends State<HoemPage> {
                         TaskServices().deleteTask(task.id);
                       },
                     ),
+                    onTap: () {
+                      _showEditTaskBottomSheet(task);
+                    },
                   ),
                 );
               },

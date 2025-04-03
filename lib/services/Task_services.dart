@@ -39,6 +39,17 @@ class TaskServices {
     );
   }
 
+  //Method to update a task in the Firestore collection
+  Future<void> updateTask(Task task) async {
+    final Map<String, dynamic> data = task.toJson();
+    try {
+      await _taskCollection.doc(task.id).update(data);
+      print("Task updated");
+    } catch (error) {
+      print("Error updating task: $error");
+    }
+  }
+
   //Method to Delete a task in the Firestore collection
   Future<void> deleteTask(String id) async {
     try {
