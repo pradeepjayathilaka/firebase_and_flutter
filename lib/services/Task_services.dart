@@ -38,4 +38,14 @@ class TaskServices {
               .toList(),
     );
   }
+
+  //Method to Delete a task in the Firestore collection
+  Future<void> deleteTask(String id) async {
+    try {
+      await _taskCollection.doc(id).delete();
+      print("Task deleted");
+    } catch (error) {
+      print("Error deleting task: $error");
+    }
+  }
 }

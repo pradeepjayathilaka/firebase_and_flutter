@@ -90,7 +90,7 @@ class _HoemPageState extends State<HoemPage> {
                     trailing: IconButton(
                       icon: const Icon(Icons.delete),
                       onPressed: () async {
-                        // Implement delete functionality here
+                        TaskServices().deleteTask(task.id);
                       },
                     ),
                   ),
